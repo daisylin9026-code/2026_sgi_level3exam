@@ -283,6 +283,39 @@ footer{margin-top:50px;color:var(--muted);font-size:13px;text-align:center}
 .hbox .hx{position:absolute;top:12px;right:14px;border:0;background:#FFE3EC;color:#E6285A;font-size:20px;width:36px;height:36px;border-radius:50%;cursor:pointer}
 .hbox .go{display:block;margin:20px auto 0;font:inherit;font-size:17px;font-weight:700;color:#fff;background:linear-gradient(90deg,#FF4F81,#FF9A3C);border:0;border-radius:999px;padding:10px 34px;cursor:pointer;box-shadow:0 4px 14px rgba(255,79,129,.4)}
 .hbox .note{color:#888;font-size:13px;text-align:center;margin-top:8px}
+
+/* ===== B：手機版底部工具列 ===== */
+.mnav,.msheet,.mback,.mreveal,.mcur{display:none}
+@media (max-width:720px){
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 66px)}
+  main{padding-bottom:40px}
+  #buildver{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 96px)!important}
+  .bar{padding:calc(env(safe-area-inset-top,0px) + 6px) 8px 4px;top:0}
+  .bar-in{padding:6px 10px;border-radius:12px;box-shadow:3px 3px 0 var(--shadow);cursor:pointer}
+  .row1,#rank,.pnodes{display:none!important}
+  .row2{margin:0;padding:0;border:0;gap:8px}
+  .mcur{flex:1;display:flex;align-items:center;gap:8px;min-width:0;font-size:13px;font-weight:900}
+  .mcur .xp{flex:1;margin:0;height:6px}
+  .bar-in>.xp{display:none}
+  .pcount{font-size:12px}
+  .mnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;z-index:46;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);padding:4px}
+  .mnav button{border:0;background:none;border-radius:10px;padding:5px 0 4px;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11px;font-weight:900;color:var(--ink);min-width:0}
+  .mnav button .ic{font-size:18px;line-height:1.2}
+  .mnav button .lb{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+  .mnav button[aria-pressed="true"]{background:var(--gold)}
+  .mnav button.cur{background:var(--soft)}
+  .mback.on{display:block;position:fixed;inset:0;z-index:44;background:rgba(20,20,40,.35)}
+  .msheet.on{display:block;position:fixed;z-index:45;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 80px);padding:14px;max-height:60vh;overflow:auto}
+  .msheet h3{margin:0 0 10px;font-size:15px}
+  .msheet .mopts{display:flex;flex-direction:column;gap:8px}
+  .msheet .mopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:var(--soft);border-radius:10px;padding:9px 12px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;box-shadow:2px 2px 0 var(--shadow)}
+  .msheet .mopt[aria-pressed="true"]{background:var(--jade);color:#fff}
+  .msheet .nodes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .msheet .nodes .pw{width:100%;margin:6px 0 0;font-size:12px}
+  .msheet .nodes .pn{font-size:10px;padding:7px 8px}
+  .mreveal.on{display:block;position:fixed;z-index:41;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 82px);border:2px solid var(--line);background:var(--gold);color:#22304D;border-radius:10px;padding:6px 12px;font-size:14px;font-weight:900;box-shadow:2px 2px 0 var(--shadow)}
+  .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 90px)}
+}
 </style></head>
 <body data-view="both">
 
@@ -692,7 +725,7 @@ function setLesson(k){
 document.querySelectorAll("[data-lesson]").forEach(b=>b.onclick=()=>setLesson(b.dataset.lesson));
 setLesson(cur);
 </script>
-<div id="buildver" style="text-align:center;font-size:12px;color:#9A9083;padding:18px 0 calc(env(safe-area-inset-bottom,0px) + 18px);letter-spacing:.05em">v2026102501 by Daisy</div><div class="hmask" id="helpMask" role="dialog" aria-label="使用說明"><div class="hbox">
+<div id="buildver" style="text-align:center;font-size:12px;color:#9A9083;padding:18px 0 calc(env(safe-area-inset-bottom,0px) + 18px);letter-spacing:.05em">v2026102502 by Daisy</div><div class="hmask" id="helpMask" role="dialog" aria-label="使用說明"><div class="hbox">
 <button class="hx" aria-label="關閉">✕</button>
 <h2>📖 使用說明</h2>
 <p>本頁收錄 2026 三級考試範圍的三篇御書：〈轉重輕受法門〉〈致乙女函〉〈如說修行抄〉，每篇都有背景大意、文言白話對照、名詞解釋與考古題。看完說明後按最下方「開始閱讀」；之後隨時可按上方「📖 使用說明」再打開。</p>
@@ -736,5 +769,69 @@ setLesson(cur);
 document.addEventListener('click',e=>{if(e.target.closest('#helpBtn')){m.classList.add('on');m.scrollTop=0;}
  else if(e.target.closest('.hx')||e.target.closest('.hbox .go')||e.target===m){m.classList.remove('on');}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')m.classList.remove('on')});})();
-</script></body>
+</script><script>
+const M={
+  mq:matchMedia('(max-width:720px)'),
+  lessons:()=>[...document.querySelectorAll('.bar .seg [data-lesson]')],
+  views:()=>[...document.querySelectorAll('.bar .seg [data-v]')],
+  curLesson(){return this.lessons().find(b=>b.getAttribute('aria-pressed')==='true')||this.lessons()[0]},
+  curView(){return this.views().find(b=>b.dataset.v===document.body.dataset.view)||this.views()[0]},
+  here(){const a=document.querySelector('#pnodes .pn.here')||document.querySelector('#pnodes .pn');return a?a.textContent.trim():'—'},
+  total(){return document.querySelectorAll('#pnodes .pn').length},
+  watch(fn){let t=0;const go=()=>{if(t)return;t=requestAnimationFrame(()=>{t=0;fn()})};
+    new MutationObserver(go).observe(document.querySelector('.bar'),{subtree:true,attributes:true,childList:true,characterData:true});
+    new MutationObserver(go).observe(document.body,{attributes:true,attributeFilter:['class','data-view']});
+    addEventListener('scroll',go,{passive:true});go();}
+};
+
+(()=>{
+  const row2=document.querySelector('.row2'), pcount=row2.querySelector('.pcount');
+  const cur=document.createElement('div'); cur.className='mcur';
+  cur.innerHTML='<span id="mHere">1-1</span><div class="xp"><i id="mXp"></i></div>';
+  row2.insertBefore(cur,pcount);
+  const nav=document.createElement('nav'); nav.className='mnav box'; nav.setAttribute('aria-label','工具列');
+  nav.innerHTML=`<button data-k="lesson"><span class="ic">📚</span><span class="lb" id="mLes">御書</span></button>
+  <button data-k="view"><span class="ic">🔀</span><span class="lb" id="mView">對照</span></button>
+  <button data-k="quiz" aria-pressed="false"><span class="ic">📝</span><span class="lb">挖空</span></button>
+  <button data-k="nodes"><span class="ic">🗺️</span><span class="lb">關卡</span></button>
+  <button data-k="more"><span class="ic">⋯</span><span class="lb">更多</span></button>`;
+  const back=document.createElement('div'); back.className='mback';
+  const sh=document.createElement('div'); sh.className='msheet box'; sh.setAttribute('role','dialog');
+  const rv=document.createElement('button'); rv.className='mreveal';
+  document.body.append(back,sh,rv,nav);
+  const close=()=>{back.classList.remove('on');sh.classList.remove('on');nav.querySelectorAll('.cur').forEach(b=>b.classList.remove('cur'))};
+  back.onclick=close; addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  const open=(k,btn)=>{
+    if(sh.classList.contains('on')&&sh.dataset.k===k){close();return}
+    close(); sh.dataset.k=k; let h='';
+    if(k==='lesson') h='<h3>切換御書</h3><div class="opts">'+M.lessons().map((b,i)=>`<button class="mopt" data-i="${i}" aria-pressed="${b.getAttribute('aria-pressed')}">${b.textContent}</button>`).join('')+'</div>';
+    if(k==='view') h='<h3>顯示方式</h3><div class="opts">'+M.views().map((b,i)=>`<button class="mopt" data-i="${i}" aria-pressed="${b.dataset.v===document.body.dataset.view}">${b.textContent.trim()}</button>`).join('')+'</div>';
+    if(k==='nodes') h='<h3>關卡進度</h3><div class="nodes">'+document.getElementById('pnodes').innerHTML+'</div>';
+    if(k==='more') h='<h3>更多</h3><div class="opts"><a class="mopt" href="#sec-exam">📋 考古題</a><button class="mopt" data-help>📖 使用說明</button></div>';
+    sh.innerHTML=h; sh.classList.add('on'); back.classList.add('on'); btn.classList.add('cur');
+  };
+  sh.onclick=e=>{
+    const o=e.target.closest('.mopt[data-i]'); const k=sh.dataset.k;
+    if(o){ (k==='lesson'?M.lessons():M.views())[+o.dataset.i].click(); close(); return; }
+    if(e.target.closest('[data-help]')){ close(); document.getElementById('helpBtn').click(); return; }
+    if(e.target.closest('a')) close();
+  };
+  nav.onclick=e=>{ const b=e.target.closest('button'); if(!b) return;
+    if(b.dataset.k==='quiz'){ close(); document.getElementById('quizBtn').click(); return; }
+    open(b.dataset.k,b); };
+  document.querySelector('.bar-in').addEventListener('click',e=>{ if(M.mq.matches&&e.isTrusted&&!e.target.closest('.row1')) open('nodes',nav.querySelector('[data-k=nodes]')); });
+  rv.onclick=()=>document.getElementById('revealAll').click();
+  M.watch(()=>{
+    document.getElementById('mHere').textContent=M.here();
+    document.getElementById('mXp').style.width=document.getElementById('xpBar').style.width;
+    document.getElementById('mLes').textContent=(M.curLesson()||{}).textContent||'御書';
+    document.getElementById('mView').textContent=(M.curView()||{}).textContent.trim();
+    const q=document.getElementById('quizBtn').getAttribute('aria-pressed')==='true';
+    nav.querySelector('[data-k=quiz]').setAttribute('aria-pressed',q);
+    const ra=document.getElementById('revealAll'); rv.classList.toggle('on',!ra.hidden); rv.textContent=ra.textContent;
+  });
+})();
+
+</script>
+</body>
 </html>
